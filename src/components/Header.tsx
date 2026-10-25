@@ -33,6 +33,10 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Insights', page: 'insights' }
   ];
 
+  const getPageHref = (page: NavPage): string => {
+    return page === 'home' ? '#/' : `#/${page}`;
+  };
+
   const handleNavClick = (page: NavPage) => {
     onNavigate(page);
     setMobileMenuOpen(false);
@@ -49,8 +53,12 @@ export const Header: React.FC<HeaderProps> = ({
       >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
         {/* Brand Lockup */}
-        <button
-          onClick={() => handleNavClick('home')}
+        <a
+          href="#/"
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavClick('home');
+          }}
           className="flex items-center gap-3 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4FF00] shrink-0 cursor-pointer"
           aria-label="Saeed Jabbari Studio Home"
         >
@@ -65,19 +73,23 @@ export const Header: React.FC<HeaderProps> = ({
               BRANDING · PACKAGING · WEB DESIGN
             </span>
           </div>
-        </button>
+        </a>
 
-        {/* Desktop Navigation Links — 100% Crisp High-Contrast Legibility */}
+        {/* Desktop Navigation Links — 100% Crisp High-Contrast Legibility & True URLs */}
         <nav className="hidden md:flex items-center gap-7 lg:gap-9 text-[13px] font-medium tracking-wide" aria-label="Main Navigation">
           {navItems.map((item) => {
             const isActive =
               currentPage === item.page ||
               (item.page === 'work' && currentPage === 'project-detail') ||
-              (item.page === 'insights' && currentPage === 'articles');
+              (item.page === 'insights' && (currentPage === 'insights' || currentPage === 'articles'));
             return (
-              <button
+              <a
                 key={item.page}
-                onClick={() => handleNavClick(item.page)}
+                href={getPageHref(item.page)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(item.page);
+                }}
                 className={`relative py-2 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4FF00] rounded cursor-pointer ${
                   isActive ? 'text-white font-bold' : 'text-neutral-300 hover:text-[#D4FF00]'
                 }`}
@@ -89,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
                     aria-hidden="true"
                   />
                 )}
-              </button>
+              </a>
             );
           })}
         </nav>
@@ -122,18 +134,22 @@ export const Header: React.FC<HeaderProps> = ({
               const isActive =
                 currentPage === item.page ||
                 (item.page === 'work' && currentPage === 'project-detail') ||
-                (item.page === 'insights' && currentPage === 'articles');
+                (item.page === 'insights' && (currentPage === 'insights' || currentPage === 'articles'));
               return (
-                <button
+                <a
                   key={item.page}
-                  onClick={() => handleNavClick(item.page)}
+                  href={getPageHref(item.page)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.page);
+                  }}
                   className={`flex items-center justify-between text-left py-2.5 px-3 rounded-md text-sm font-medium tracking-wide transition-colors ${
                     isActive ? 'text-[#D4FF00] bg-white/5 font-bold' : 'text-neutral-200 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <span>{item.label}</span>
                   {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#D4FF00]" />}
-                </button>
+                </a>
               );
             })}
           </nav>

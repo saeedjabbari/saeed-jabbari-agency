@@ -29,13 +29,17 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
             </h2>
           </div>
 
-          <button
-            onClick={onViewAll}
+          <a
+            href="#/work"
+            onClick={(e) => {
+              e.preventDefault();
+              onViewAll();
+            }}
             className="inline-flex items-center justify-center gap-2.5 px-6 py-4 bg-[#080C14] hover:bg-[#D4FF00] hover:text-[#080C14] text-white text-xs font-bold tracking-[0.14em] uppercase rounded-md transition-all self-stretch sm:self-auto shrink-0 group cursor-pointer shadow-lg shadow-black/10"
           >
             <span>VIEW ALL 11 PROJECTS</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </button>
+          </a>
         </div>
       </div>
 

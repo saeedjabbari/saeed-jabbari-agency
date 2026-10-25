@@ -277,7 +277,11 @@ export const ArticlesView: React.FC<ArticlesViewProps> = ({ onOpenBrief }) => {
             <button
               onClick={() => {
                 setSelectedArticleId(null);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                try {
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                } catch {
+                  window.scrollTo(0, 0);
+                }
               }}
               className="inline-flex items-center gap-2 text-xs font-mono text-neutral-500 hover:text-[#080C14] uppercase tracking-wider transition-colors cursor-pointer"
             >
@@ -341,7 +345,11 @@ export const ArticlesView: React.FC<ArticlesViewProps> = ({ onOpenBrief }) => {
                 key={art.id}
                 onClick={() => {
                   setSelectedArticleId(art.id);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  try {
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  } catch {
+                    window.scrollTo(0, 0);
+                  }
                 }}
                 className="bg-white hover:shadow-[0_12px_36px_rgba(0,0,0,0.07)] rounded-xl overflow-hidden transition-all duration-300 cursor-pointer flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
               >

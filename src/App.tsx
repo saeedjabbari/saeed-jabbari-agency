@@ -76,28 +76,108 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 }
 
+const parseRoute = (): { page: NavPage; projectId?: string; sector?: SectorCategory } => {
+  if (typeof window === 'undefined') return { page: 'home' };
+  const rawHash = window.location.hash.replace(/^#\/?/, '').trim();
+  if (!rawHash || rawHash === 'home') {
+    return { page: 'home' };
+  }
+  if (rawHash.startsWith('project/')) {
+    const pId = rawHash.replace('project/', '').split('?')[0];
+    return { page: 'project-detail', projectId: pId };
+  }
+  if (rawHash.startsWith('work')) {
+    const qIndex = rawHash.indexOf('?');
+    if (qIndex !== -1) {
+      const search = new URLSearchParams(rawHash.slice(qIndex));
+      const sector = search.get('sector') as SectorCategory | null;
+      if (sector && ['cosmetics', 'fmcg', 'b2b', 'automotive'].includes(sector)) {
+        return { page: 'work', sector };
+      }
+    }
+    return { page: 'work' };
+  }
+  if (rawHash.startsWith('services')) {
+    return { page: 'services' };
+  }
+  if (rawHash.startsWith('process')) {
+    return { page: 'process' };
+  }
+  if (rawHash.startsWith('pricing')) {
+    return { page: 'pricing' };
+  }
+  if (rawHash.startsWith('insights') || rawHash.startsWith('articles')) {
+    return { page: 'insights' };
+  }
+  return { page: 'home' };
+};
+
+const resetScrollTop = () => {
+  try {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  } catch {
+    window.scrollTo(0, 0);
+  }
+  if (typeof document !== 'undefined') {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+};
+
 function MainApp() {
-  const [currentPage, setCurrentPage] = useState<NavPage>('home');
-  const [selectedProject, setSelectedProject] = useState<Project>(PROJECTS[0]);
+  const [currentPage, setCurrentPage] = useState<NavPage>(() => parseRoute().page);
+  const [selectedProject, setSelectedProject] = useState<Project>(() => {
+    const init = parseRoute();
+    if (init.projectId) {
+      const found = PROJECTS.find((p) => p.id === init.projectId);
+      if (found) return found;
+    }
+    return PROJECTS[0];
+  });
   const [isBriefModalOpen, setIsBriefModalOpen] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
-  const [archiveInitialSector, setArchiveInitialSector] = useState<SectorCategory | 'all'>('all');
+  const [archiveInitialSector, setArchiveInitialSector] = useState<SectorCategory | 'all'>(() => {
+    const init = parseRoute();
+    return init.sector || 'all';
+  });
 
   const handleNavigate = (page: NavPage) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    let targetHash = '#/';
+    if (page === 'home') targetHash = '#/';
+    else if (page === 'work') targetHash = '#/work';
+    else if (page === 'services') targetHash = '#/services';
+    else if (page === 'process') targetHash = '#/process';
+    else if (page === 'pricing') targetHash = '#/pricing';
+    else if (page === 'insights' || page === 'articles') targetHash = '#/insights';
+
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+    } else {
+      setCurrentPage(page);
+      resetScrollTop();
+    }
   };
 
   const handleOpenProjectDetail = (proj: Project) => {
     setSelectedProject(proj);
-    setCurrentPage('project-detail');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const targetHash = `#/project/${proj.id}`;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+    } else {
+      setCurrentPage('project-detail');
+      resetScrollTop();
+    }
   };
 
   const handleSelectSectorFromHome = (sectorId: SectorCategory) => {
     setArchiveInitialSector(sectorId);
-    setCurrentPage('work');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const targetHash = `#/work?sector=${sectorId}`;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+    } else {
+      setCurrentPage('work');
+      resetScrollTop();
+    }
   };
 
   const handleExploreWorks = () => {
@@ -105,8 +185,7 @@ function MainApp() {
     if (workElem && currentPage === 'home') {
       workElem.scrollIntoView({ behavior: 'smooth' });
     } else {
-      setCurrentPage('work');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      handleNavigate('work');
     }
   };
 
@@ -115,10 +194,45 @@ function MainApp() {
     if (capElem && currentPage === 'home') {
       capElem.scrollIntoView({ behavior: 'smooth' });
     } else {
-      setCurrentPage('services');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      handleNavigate('services');
     }
   };
+
+  // Synchronize route with hash changes (browser Back/Forward buttons and external links)
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      const route = parseRoute();
+      setCurrentPage(route.page);
+      if (route.projectId) {
+        const found = PROJECTS.find((p) => p.id === route.projectId);
+        if (found) setSelectedProject(found);
+      }
+      if (route.sector) {
+        setArchiveInitialSector(route.sector);
+      }
+      resetScrollTop();
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Sync document page title with current page
+  React.useEffect(() => {
+    const titles: Record<NavPage, string> = {
+      home: 'Saeed Jabbari — Branding, Packaging & Website Design Solutions',
+      work: 'Selected Works & Case Studies — Saeed Jabbari',
+      services: 'Services & Capabilities — Saeed Jabbari',
+      process: '5-Phase Commercial Process — Saeed Jabbari',
+      pricing: 'Commercial Engagement & Pricing — Saeed Jabbari',
+      insights: 'Articles & Strategic Insights — Saeed Jabbari',
+      articles: 'Articles & Strategic Insights — Saeed Jabbari',
+      'project-detail': selectedProject ? `${selectedProject.title} — Saeed Jabbari Studio` : 'Project Detail — Saeed Jabbari Studio'
+    };
+    if (typeof document !== 'undefined') {
+      document.title = titles[currentPage] || titles.home;
+    }
+  }, [currentPage, selectedProject]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#080c14] text-[#f4f5f7] selection:bg-[#D4FF00] selection:text-[#080c14]">
@@ -129,10 +243,10 @@ function MainApp() {
         onOpenBrief={() => setIsBriefModalOpen(true)}
       />
 
-      {/* Main Page Rendering */}
-      <main className="flex-1">
+      {/* Main Independent Page Rendering */}
+      <main className="flex-1" key={currentPage + (currentPage === 'project-detail' ? `-${selectedProject?.id}` : '')}>
         {currentPage === 'home' && (
-          <>
+          <div className="animate-in fade-in duration-150">
             <Hero
               onExploreWorks={handleExploreWorks}
               onOpenAudit={() => setIsAuditModalOpen(true)}
@@ -140,33 +254,23 @@ function MainApp() {
             />
             <TickerMarquee />
             <Capabilities
-              onSelectCapability={() => {
-                setCurrentPage('process');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onSelectCapability={() => handleNavigate('process')}
             />
             <SelectedWork
               onViewAll={() => {
                 setArchiveInitialSector('all');
-                setCurrentPage('work');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleNavigate('work');
               }}
               onSelectProject={handleOpenProjectDetail}
             />
             <StatsAndFacts
               onOpenBrief={() => setIsBriefModalOpen(true)}
-              onExploreProcess={() => {
-                setCurrentPage('process');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onExploreProcess={() => handleNavigate('process')}
             />
             <Industries onSelectSector={handleSelectSectorFromHome} />
             <TestimonialsWall />
             <EngagementModels
-              onViewPricing={() => {
-                setCurrentPage('pricing');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onViewPricing={() => handleNavigate('pricing')}
               onRequestAudit={() => setIsAuditModalOpen(true)}
               onDiscussProject={() => setIsBriefModalOpen(true)}
               onInquireRetainer={() => setIsBriefModalOpen(true)}
@@ -176,54 +280,45 @@ function MainApp() {
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onRequestAudit={() => setIsAuditModalOpen(true)}
             />
-          </>
+          </div>
         )}
 
         {currentPage === 'services' && (
-          <>
+          <div className="animate-in fade-in duration-150">
             <ServicesView
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onSelectProject={handleOpenProjectDetail}
-              onNavigateToProcess={() => {
-                setCurrentPage('process');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onNavigateToProcess={() => handleNavigate('process')}
             />
             <TalkShopSection
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onRequestAudit={() => setIsAuditModalOpen(true)}
             />
-          </>
+          </div>
         )}
 
         {currentPage === 'work' && (
-          <>
+          <div className="animate-in fade-in duration-150">
             <WorkArchive
               initialSector={archiveInitialSector}
               onSelectProject={handleOpenProjectDetail}
             />
             <StatsAndFacts
               onOpenBrief={() => setIsBriefModalOpen(true)}
-              onExploreProcess={() => {
-                setCurrentPage('process');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onExploreProcess={() => handleNavigate('process')}
             />
             <TalkShopSection
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onRequestAudit={() => setIsAuditModalOpen(true)}
             />
-          </>
+          </div>
         )}
 
         {currentPage === 'project-detail' && (
-          <>
+          <div className="animate-in fade-in duration-150">
             <ProjectDetailView
               project={selectedProject}
-              onBackToArchive={() => {
-                setCurrentPage('work');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onBackToArchive={() => handleNavigate('work')}
               onSelectProject={handleOpenProjectDetail}
               onOpenBrief={() => setIsBriefModalOpen(true)}
             />
@@ -231,21 +326,21 @@ function MainApp() {
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onRequestAudit={() => setIsAuditModalOpen(true)}
             />
-          </>
+          </div>
         )}
 
         {currentPage === 'process' && (
-          <>
+          <div className="animate-in fade-in duration-150">
             <ProcessView onOpenBrief={() => setIsBriefModalOpen(true)} />
             <TalkShopSection
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onRequestAudit={() => setIsAuditModalOpen(true)}
             />
-          </>
+          </div>
         )}
 
         {currentPage === 'pricing' && (
-          <>
+          <div className="animate-in fade-in duration-150">
             <PricingView
               onRequestAudit={() => setIsAuditModalOpen(true)}
               onDiscussProject={() => setIsBriefModalOpen(true)}
@@ -256,17 +351,17 @@ function MainApp() {
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onRequestAudit={() => setIsAuditModalOpen(true)}
             />
-          </>
+          </div>
         )}
 
         {(currentPage === 'insights' || currentPage === 'articles') && (
-          <>
+          <div className="animate-in fade-in duration-150">
             <ArticlesView onOpenBrief={() => setIsBriefModalOpen(true)} />
             <TalkShopSection
               onOpenBrief={() => setIsBriefModalOpen(true)}
               onRequestAudit={() => setIsAuditModalOpen(true)}
             />
-          </>
+          </div>
         )}
       </main>
 

@@ -41,14 +41,18 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       {/* Sticky Secondary Sub-Nav Bar — Clean borderless glass */}
       <div className="sticky top-16 sm:top-20 z-40 bg-[#080C14]/90 backdrop-blur-xl">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 h-14 sm:h-16 flex items-center justify-between gap-3">
-          <button
-            onClick={onBackToArchive}
+          <a
+            href="#/work"
+            onClick={(e) => {
+              e.preventDefault();
+              onBackToArchive();
+            }}
             className="inline-flex items-center gap-2 text-xs font-mono text-neutral-300 hover:text-[#D4FF00] uppercase tracking-wider transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span className="hidden xs:inline">Back to Works</span>
             <span className="xs:hidden">Back</span>
-          </button>
+          </a>
 
           <div className="hidden md:flex items-center gap-2 font-mono text-xs text-neutral-400 uppercase tracking-wider truncate">
             <span className="text-white truncate font-medium">{project.title}</span>
@@ -373,19 +377,27 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <span className="font-mono text-[10px] tracking-widest text-neutral-500 uppercase">
               CONTINUE EXPLORING ARCHIVE
             </span>
-            <button
-              onClick={onBackToArchive}
+            <a
+              href="#/work"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToArchive();
+              }}
               className="font-mono text-xs text-[#D4FF00] hover:underline cursor-pointer"
             >
               View All {PROJECTS.length} Works
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Previous Project */}
-            <div
-              onClick={() => onSelectProject(prevProject)}
-              className="group cursor-pointer"
+            <a
+              href={`#/project/${prevProject.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelectProject(prevProject);
+              }}
+              className="group cursor-pointer block"
             >
               <div className="bg-[#0E1522] rounded-xl p-6 sm:p-8 flex items-center justify-center overflow-hidden group-hover:bg-[#121B2B] transition-colors">
                 <img
@@ -407,12 +419,16 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   {prevProject.title}
                 </h4>
               </div>
-            </div>
+            </a>
 
             {/* Next Project */}
-            <div
-              onClick={() => onSelectProject(nextProject)}
-              className="group cursor-pointer"
+            <a
+              href={`#/project/${nextProject.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelectProject(nextProject);
+              }}
+              className="group cursor-pointer block"
             >
               <div className="bg-[#0E1522] rounded-xl p-6 sm:p-8 flex items-center justify-center overflow-hidden group-hover:bg-[#121B2B] transition-colors">
                 <img
@@ -434,7 +450,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   {nextProject.title}
                 </h4>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>

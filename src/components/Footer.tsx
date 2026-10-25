@@ -131,30 +131,46 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBrief }) => {
           <p>© 2026 Saeed Jabbari Studio. All rights reserved.</p>
 
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <button
-              onClick={() => onNavigate('work')}
+            <a
+              href="#/work"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('work');
+              }}
               className="hover:text-white transition-colors cursor-pointer"
             >
               Work
-            </button>
-            <button
-              onClick={() => onNavigate('services')}
+            </a>
+            <a
+              href="#/services"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('services');
+              }}
               className="hover:text-white transition-colors cursor-pointer"
             >
               Services
-            </button>
-            <button
-              onClick={() => onNavigate('process')}
+            </a>
+            <a
+              href="#/process"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('process');
+              }}
               className="hover:text-white transition-colors cursor-pointer"
             >
               Process
-            </button>
-            <button
-              onClick={() => onNavigate('insights')}
+            </a>
+            <a
+              href="#/insights"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('insights');
+              }}
               className="hover:text-white transition-colors cursor-pointer"
             >
               Insights
-            </button>
+            </a>
             <button
               onClick={onOpenBrief}
               className="text-[#D4FF00] font-bold hover:underline transition-colors cursor-pointer"
