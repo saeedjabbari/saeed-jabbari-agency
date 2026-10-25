@@ -145,9 +145,10 @@
         }
 
         // 1. Try loading the pre-compiled high-performance production bundle (sub-100ms load)
+        var cacheKey = Date.now().toString(36);
         var prebundleScript = document.createElement('script');
         prebundleScript.type = 'module';
-        prebundleScript.src = './assets/app.js';
+        prebundleScript.src = './assets/app.js?v=' + cacheKey;
         prebundleScript.onload = function () {
           // Successfully loaded prebuilt bundle instantly!
         };
@@ -160,7 +161,7 @@
 
         var prebundleCss = document.createElement('link');
         prebundleCss.rel = 'stylesheet';
-        prebundleCss.href = './assets/app.css';
+        prebundleCss.href = './assets/app.css?v=' + cacheKey;
         document.head.appendChild(prebundleCss);
 
         function initFallbackCompiler() {
@@ -255,7 +256,11 @@
             ['ServicesView', './src/components/ServicesView.tsx'],
             ['ScrollToTopButton', './src/components/ScrollToTopButton.tsx'],
             ['BrandAuditModal', './src/components/BrandAuditModal.tsx'],
-            ['IntakeBriefModal', './src/components/IntakeBriefModal.tsx'],
+            ['TickerMarquee', './src/components/TickerMarquee.tsx'],
+            ['StatsAndFacts', './src/components/StatsAndFacts.tsx'],
+            ['FaqSection', './src/components/FaqSection.tsx'],
+            ['TestimonialsWall', './src/components/TestimonialsWall.tsx'],
+            ['TalkShopSection', './src/components/TalkShopSection.tsx'],
             ['App', './src/App.tsx']
           ];
 
