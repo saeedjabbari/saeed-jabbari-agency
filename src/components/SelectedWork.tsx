@@ -86,6 +86,8 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
                 <img
                   src={leadProject.heroImage}
                   alt={leadProject.title}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="w-full max-h-[80vh] object-contain mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                 />
@@ -112,6 +114,8 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
                 <img
                   src={secondaryProject.heroImage}
                   alt={secondaryProject.title}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="w-full max-h-[62vh] object-contain mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                 />
@@ -189,6 +193,8 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
                 <img
                   src={tertiaryProject.heroImage}
                   alt={tertiaryProject.title}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="w-full max-h-[62vh] object-contain mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                 />

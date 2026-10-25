@@ -187,7 +187,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
           <button
             onClick={() => {
               setSelectedServiceId(null);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              try {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+              } catch {
+                window.scrollTo(0, 0);
+              }
             }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-neutral-200 text-[#080C14] font-mono text-xs font-bold tracking-widest uppercase rounded-lg transition-colors mb-10 shadow-sm cursor-pointer"
           >
@@ -235,6 +239,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
               <img
                 src={s.image}
                 alt={s.title}
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="w-full max-h-[460px] object-contain rounded-lg"
               />
@@ -329,7 +335,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
               key={s.id}
               onClick={() => {
                 setSelectedServiceId(s.id);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                try {
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                } catch {
+                  window.scrollTo(0, 0);
+                }
               }}
               className={`${s.colSpan} bg-white hover:shadow-[0_12px_36px_rgba(0,0,0,0.07)] rounded-xl overflow-hidden transition-all duration-300 cursor-pointer flex flex-col justify-between group shadow-[0_4px_20px_rgba(0,0,0,0.02)]`}
             >
@@ -338,6 +348,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
                 <img
                   src={s.image}
                   alt={s.title}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />

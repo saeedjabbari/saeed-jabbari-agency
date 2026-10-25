@@ -168,6 +168,8 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                       <img
                         src={item.project.heroImage}
                         alt={item.project.title}
+                        loading="lazy"
+                        decoding="async"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-contain mx-auto"
                       />
@@ -301,6 +303,8 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                       <img
                         src={itemA.project.heroImage}
                         alt={itemA.project.title}
+                        loading="lazy"
+                        decoding="async"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-contain mx-auto"
                       />
@@ -387,6 +391,8 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                         <img
                           src={itemB.project.heroImage}
                           alt={itemB.project.title}
+                          loading="lazy"
+                          decoding="async"
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-contain mx-auto"
                         />
@@ -475,6 +481,8 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                           <img
                             src={item.project.heroImage}
                             alt={item.project.title}
+                            loading="lazy"
+                            decoding="async"
                             referrerPolicy="no-referrer"
                             className="w-full h-full object-contain mx-auto"
                           />

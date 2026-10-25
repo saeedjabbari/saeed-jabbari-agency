@@ -189,6 +189,8 @@ export const Hero: React.FC<HeroProps> = ({
                   <img
                     src={currentSlide.image}
                     alt={currentSlide.sampleProjectTitle}
+                    loading="eager"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-contain mx-auto transition-transform duration-700 ease-out group-hover:scale-105"
                   />

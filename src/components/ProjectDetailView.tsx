@@ -126,6 +126,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           <img
             src={project.heroImage}
             alt={project.title}
+            loading="eager"
+            decoding="async"
             referrerPolicy="no-referrer"
             className="w-full max-h-[88vh] object-contain mx-auto rounded-xl sm:rounded-2xl shadow-2xl transition-transform duration-700 ease-out group-hover:scale-[1.01]"
           />
@@ -342,6 +344,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     <img
                       src={img.url}
                       alt={img.caption || `${project.title} Plate 0${idx + 1}`}
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       className={`w-full ${aspectClass} object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.01]`}
                     />

@@ -1,0 +1,7 @@
+# Robots.txt for Saeed Jabbari Studio Portfolio
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.aistudio/
+
+Sitemap: https://saeedjabbari.com/sitemap.xml
