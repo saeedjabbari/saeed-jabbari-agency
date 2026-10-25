@@ -20,9 +20,22 @@ export default defineConfig(({command}) => {
         output: {
           entryFileNames: 'assets/app.js',
           chunkFileNames: 'assets/[name].js',
-          assetFileNames: 'assets/app.[ext]'
-        }
-      }
+          assetFileNames: 'assets/[name].[ext]',
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react') || id.includes('react-dom')) {
+                return 'vendor-react';
+              }
+              if (id.includes('motion')) {
+                return 'vendor-motion';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-icons';
+              }
+            }
+          },
+        },
+      },
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

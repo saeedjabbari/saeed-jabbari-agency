@@ -9,20 +9,31 @@ import { SelectedWork } from './components/SelectedWork';
 import { EngagementModels } from './components/EngagementModels';
 import { CtaBanner } from './components/CtaBanner';
 import { Footer } from './components/Footer';
-import { WorkArchive } from './components/WorkArchive';
-import { ProjectDetailView } from './components/ProjectDetailView';
-import { ProcessView } from './components/ProcessView';
-import { PricingView } from './components/PricingView';
-import { ArticlesView } from './components/ArticlesView';
-import { ServicesView } from './components/ServicesView';
-import { BrandAuditModal } from './components/BrandAuditModal';
-import { IntakeBriefModal } from './components/IntakeBriefModal';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
 import { TickerMarquee } from './components/TickerMarquee';
 import { StatsAndFacts } from './components/StatsAndFacts';
 import { FaqSection } from './components/FaqSection';
 import { TestimonialsWall } from './components/TestimonialsWall';
 import { TalkShopSection } from './components/TalkShopSection';
+
+// Code-split sub-pages and heavy modals so initial home landing load is instantaneous
+const WorkArchive = React.lazy(() => import('./components/WorkArchive').then((m) => ({ default: m.WorkArchive })));
+const ProjectDetailView = React.lazy(() => import('./components/ProjectDetailView').then((m) => ({ default: m.ProjectDetailView })));
+const ProcessView = React.lazy(() => import('./components/ProcessView').then((m) => ({ default: m.ProcessView })));
+const PricingView = React.lazy(() => import('./components/PricingView').then((m) => ({ default: m.PricingView })));
+const ArticlesView = React.lazy(() => import('./components/ArticlesView').then((m) => ({ default: m.ArticlesView })));
+const ServicesView = React.lazy(() => import('./components/ServicesView').then((m) => ({ default: m.ServicesView })));
+const BrandAuditModal = React.lazy(() => import('./components/BrandAuditModal').then((m) => ({ default: m.BrandAuditModal })));
+const IntakeBriefModal = React.lazy(() => import('./components/IntakeBriefModal').then((m) => ({ default: m.IntakeBriefModal })));
+
+function SubPageLoader() {
+  return (
+    <div className="min-h-[70vh] flex flex-col items-center justify-center p-12 text-center">
+      <div className="w-10 h-10 border-2 border-white/10 border-t-[#D4FF00] rounded-full animate-spin mb-4" />
+      <span className="text-xs font-mono tracking-widest uppercase text-neutral-400">Loading Studio View...</span>
+    </div>
+  );
+}
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -284,84 +295,96 @@ function MainApp() {
         )}
 
         {currentPage === 'services' && (
-          <div className="animate-in fade-in duration-150">
-            <ServicesView
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onSelectProject={handleOpenProjectDetail}
-              onNavigateToProcess={() => handleNavigate('process')}
-            />
-            <TalkShopSection
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onRequestAudit={() => setIsAuditModalOpen(true)}
-            />
-          </div>
+          <React.Suspense fallback={<SubPageLoader />}>
+            <div className="animate-in fade-in duration-150">
+              <ServicesView
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onSelectProject={handleOpenProjectDetail}
+                onNavigateToProcess={() => handleNavigate('process')}
+              />
+              <TalkShopSection
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onRequestAudit={() => setIsAuditModalOpen(true)}
+              />
+            </div>
+          </React.Suspense>
         )}
 
         {currentPage === 'work' && (
-          <div className="animate-in fade-in duration-150">
-            <WorkArchive
-              initialSector={archiveInitialSector}
-              onSelectProject={handleOpenProjectDetail}
-            />
-            <StatsAndFacts
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onExploreProcess={() => handleNavigate('process')}
-            />
-            <TalkShopSection
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onRequestAudit={() => setIsAuditModalOpen(true)}
-            />
-          </div>
+          <React.Suspense fallback={<SubPageLoader />}>
+            <div className="animate-in fade-in duration-150">
+              <WorkArchive
+                initialSector={archiveInitialSector}
+                onSelectProject={handleOpenProjectDetail}
+              />
+              <StatsAndFacts
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onExploreProcess={() => handleNavigate('process')}
+              />
+              <TalkShopSection
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onRequestAudit={() => setIsAuditModalOpen(true)}
+              />
+            </div>
+          </React.Suspense>
         )}
 
         {currentPage === 'project-detail' && (
-          <div className="animate-in fade-in duration-150">
-            <ProjectDetailView
-              project={selectedProject}
-              onBackToArchive={() => handleNavigate('work')}
-              onSelectProject={handleOpenProjectDetail}
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-            />
-            <TalkShopSection
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onRequestAudit={() => setIsAuditModalOpen(true)}
-            />
-          </div>
+          <React.Suspense fallback={<SubPageLoader />}>
+            <div className="animate-in fade-in duration-150">
+              <ProjectDetailView
+                project={selectedProject}
+                onBackToArchive={() => handleNavigate('work')}
+                onSelectProject={handleOpenProjectDetail}
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+              />
+              <TalkShopSection
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onRequestAudit={() => setIsAuditModalOpen(true)}
+              />
+            </div>
+          </React.Suspense>
         )}
 
         {currentPage === 'process' && (
-          <div className="animate-in fade-in duration-150">
-            <ProcessView onOpenBrief={() => setIsBriefModalOpen(true)} />
-            <TalkShopSection
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onRequestAudit={() => setIsAuditModalOpen(true)}
-            />
-          </div>
+          <React.Suspense fallback={<SubPageLoader />}>
+            <div className="animate-in fade-in duration-150">
+              <ProcessView onOpenBrief={() => setIsBriefModalOpen(true)} />
+              <TalkShopSection
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onRequestAudit={() => setIsAuditModalOpen(true)}
+              />
+            </div>
+          </React.Suspense>
         )}
 
         {currentPage === 'pricing' && (
-          <div className="animate-in fade-in duration-150">
-            <PricingView
-              onRequestAudit={() => setIsAuditModalOpen(true)}
-              onDiscussProject={() => setIsBriefModalOpen(true)}
-              onInquireRetainer={() => setIsBriefModalOpen(true)}
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-            />
-            <TalkShopSection
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onRequestAudit={() => setIsAuditModalOpen(true)}
-            />
-          </div>
+          <React.Suspense fallback={<SubPageLoader />}>
+            <div className="animate-in fade-in duration-150">
+              <PricingView
+                onRequestAudit={() => setIsAuditModalOpen(true)}
+                onDiscussProject={() => setIsBriefModalOpen(true)}
+                onInquireRetainer={() => setIsBriefModalOpen(true)}
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+              />
+              <TalkShopSection
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onRequestAudit={() => setIsAuditModalOpen(true)}
+              />
+            </div>
+          </React.Suspense>
         )}
 
         {(currentPage === 'insights' || currentPage === 'articles') && (
-          <div className="animate-in fade-in duration-150">
-            <ArticlesView onOpenBrief={() => setIsBriefModalOpen(true)} />
-            <TalkShopSection
-              onOpenBrief={() => setIsBriefModalOpen(true)}
-              onRequestAudit={() => setIsAuditModalOpen(true)}
-            />
-          </div>
+          <React.Suspense fallback={<SubPageLoader />}>
+            <div className="animate-in fade-in duration-150">
+              <ArticlesView onOpenBrief={() => setIsBriefModalOpen(true)} />
+              <TalkShopSection
+                onOpenBrief={() => setIsBriefModalOpen(true)}
+                onRequestAudit={() => setIsAuditModalOpen(true)}
+              />
+            </div>
+          </React.Suspense>
         )}
       </main>
 
@@ -371,18 +394,26 @@ function MainApp() {
         onOpenBrief={() => setIsBriefModalOpen(true)}
       />
 
-      {/* 1:1 Forensic Brand & Shelf Audit Modal */}
-      <BrandAuditModal
-        isOpen={isAuditModalOpen}
-        onClose={() => setIsAuditModalOpen(false)}
-        onOpenBrief={() => setIsBriefModalOpen(true)}
-      />
+      {/* 1:1 Forensic Brand & Shelf Audit Modal - Lazy loaded only when triggered */}
+      {isAuditModalOpen && (
+        <React.Suspense fallback={null}>
+          <BrandAuditModal
+            isOpen={isAuditModalOpen}
+            onClose={() => setIsAuditModalOpen(false)}
+            onOpenBrief={() => setIsBriefModalOpen(true)}
+          />
+        </React.Suspense>
+      )}
 
-      {/* Client Intake Brief Wizard */}
-      <IntakeBriefModal
-        isOpen={isBriefModalOpen}
-        onClose={() => setIsBriefModalOpen(false)}
-      />
+      {/* Client Intake Brief Wizard - Lazy loaded only when triggered */}
+      {isBriefModalOpen && (
+        <React.Suspense fallback={null}>
+          <IntakeBriefModal
+            isOpen={isBriefModalOpen}
+            onClose={() => setIsBriefModalOpen(false)}
+          />
+        </React.Suspense>
+      )}
 
       {/* Floating Back to Top Button */}
       <ScrollToTopButton />
