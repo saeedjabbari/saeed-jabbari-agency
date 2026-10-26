@@ -161,17 +161,17 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                 }}
                 className="group relative rounded-3xl p-6 sm:p-10 lg:p-14 border cursor-pointer transition-all duration-500 hover:-translate-y-1"
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-                  {/* Left Column: Floating Monumental Artwork (Full Frame Width, Top-Attached) */}
-                  <div className="lg:col-span-7 w-full flex items-start">
-                    <div className="w-full aspect-[16/10] sm:aspect-[16/11] rounded-2xl overflow-hidden relative transition-transform duration-700 ease-out group-hover:scale-[1.02] bg-black/5 flex items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+                  {/* Left Column: Floating Monumental Artwork (Full Frame Width, Top-Attached, Zero Cropping) */}
+                  <div className="lg:col-span-7 w-full">
+                    <div className="w-full rounded-2xl overflow-hidden relative transition-transform duration-700 ease-out group-hover:scale-[1.01] bg-black/5">
                       <img
                         src={item.project.heroImage}
                         alt={item.project.title}
                         loading="lazy"
                         decoding="async"
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover object-top block"
+                        className="w-full h-auto block"
                       />
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
             const paletteB = itemB ? getProjectPalette(itemB.project.heroColor) : null;
 
             return (
-              <div key={`duo-${groupIdx}`} className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+              <div key={`duo-${groupIdx}`} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                 {/* Project A */}
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -271,24 +271,18 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                     boxShadow: paletteA.shadow,
                     borderColor: paletteA.border
                   }}
-                  className={`${
-                    isAlt ? 'lg:col-span-5' : 'lg:col-span-7'
-                  } group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5`}
+                  className="group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
                 >
                   <div>
-                    {/* Full Frame Width Image Attached to the Very Top of the Card */}
-                    <div
-                      className={`w-full ${
-                        isAlt ? 'aspect-[4/3] sm:aspect-[1/1]' : 'aspect-[16/10]'
-                      } overflow-hidden relative flex items-start bg-black/5`}
-                    >
+                    {/* Full Width Image Attached to the Very Top of the Card with Zero Cropping */}
+                    <div className="w-full overflow-hidden relative bg-black/5">
                       <img
                         src={itemA.project.heroImage}
                         alt={itemA.project.title}
                         loading="lazy"
                         decoding="async"
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                        className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                       />
 
                       {/* Floating Meta Badges Over Image */}
@@ -359,24 +353,18 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                       boxShadow: paletteB.shadow,
                       borderColor: paletteB.border
                     }}
-                    className={`${
-                      isAlt ? 'lg:col-span-7' : 'lg:col-span-5'
-                    } group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5`}
+                    className="group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
                   >
                     <div>
-                      {/* Full Frame Width Image Attached to the Very Top of the Card */}
-                      <div
-                        className={`w-full ${
-                          isAlt ? 'aspect-[16/10]' : 'aspect-[4/3] sm:aspect-[1/1]'
-                        } overflow-hidden relative flex items-start bg-black/5`}
-                      >
+                      {/* Full Width Image Attached to the Very Top of the Card with Zero Cropping */}
+                      <div className="w-full overflow-hidden relative bg-black/5">
                         <img
                           src={itemB.project.heroImage}
                           alt={itemB.project.title}
                           loading="lazy"
                           decoding="async"
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                          className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                         />
 
                         {/* Floating Meta Badges Over Image */}
@@ -443,7 +431,7 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
           // ====================================================================
           if (group.type === 'trio') {
             return (
-              <div key={`trio-${groupIdx}`} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+              <div key={`trio-${groupIdx}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
                 {group.items.map((item, i) => {
                   const palette = getProjectPalette(item.project.heroColor);
 
@@ -463,15 +451,15 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                       className="group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
                     >
                       <div>
-                        {/* Full Frame Width Image Attached to the Very Top of the Card */}
-                        <div className="w-full aspect-[4/3] sm:aspect-[1/1] overflow-hidden relative flex items-start bg-black/5">
+                        {/* Full Width Image Attached to the Very Top of the Card with Zero Cropping */}
+                        <div className="w-full overflow-hidden relative bg-black/5">
                           <img
                             src={item.project.heroImage}
                             alt={item.project.title}
                             loading="lazy"
                             decoding="async"
                             referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-105"
+                            className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                           />
 
                           {/* Floating Header Badges Over Image */}

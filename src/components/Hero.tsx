@@ -184,17 +184,16 @@ export const Hero: React.FC<HeroProps> = ({
                   </span>
                 </div>
 
-                {/* Primary Physical Artwork Visual Plate (Full Frame Width, Top-Attached) */}
-                <div className="relative aspect-[4/3] sm:aspect-[16/11] bg-[#03060B] overflow-hidden flex items-start">
+                {/* Primary Physical Artwork Visual Plate (Full Frame Width, Top-Attached, Zero Crop) */}
+                <div className="relative bg-[#03060B] overflow-hidden">
                   <img
                     src={currentSlide.image}
                     alt={currentSlide.sampleProjectTitle}
                     loading="eager"
                     decoding="async"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D131F] via-transparent to-transparent opacity-40 pointer-events-none" />
                 </div>
 
                 {/* Card Footer Info */}

@@ -129,7 +129,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             loading="eager"
             decoding="async"
             referrerPolicy="no-referrer"
-            className="w-full h-auto max-h-[90vh] object-cover object-top block mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+            className="w-full h-auto block mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
           />
 
           <div className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:bg-[#D4FF00] group-hover:text-[#080C14] transition-all">
@@ -297,39 +297,30 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
         {/* Adaptive Archival Plates Gallery — Renders 100% of All Project Images */}
         <div className="space-y-12 sm:space-y-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
             {project.galleryImages.map((img, idx) => {
               const count = project.galleryImages.length;
               let colSpan = 'lg:col-span-12';
-              let aspectClass = 'max-h-[82vh]';
 
               if (count === 1) {
                 colSpan = 'lg:col-span-12';
-                aspectClass = 'max-h-[84vh]';
               } else if (count === 2) {
                 colSpan = 'lg:col-span-6';
-                aspectClass = 'max-h-[70vh]';
               } else if (count === 3) {
                 colSpan = idx === 0 ? 'lg:col-span-12' : 'lg:col-span-6';
-                aspectClass = idx === 0 ? 'max-h-[84vh]' : 'max-h-[66vh]';
               } else if (count === 4) {
                 colSpan = idx === 0 ? 'lg:col-span-12' : 'lg:col-span-4';
-                aspectClass = idx === 0 ? 'max-h-[84vh]' : 'max-h-[60vh]';
               } else {
                 // 5 or more plates: dynamic rhythmic cadence
                 const pos = idx % 5;
                 if (pos === 0) {
                   colSpan = 'lg:col-span-12';
-                  aspectClass = 'max-h-[85vh]';
                 } else if (pos === 1) {
                   colSpan = 'lg:col-span-7';
-                  aspectClass = 'max-h-[68vh]';
                 } else if (pos === 2) {
                   colSpan = 'lg:col-span-5';
-                  aspectClass = 'max-h-[68vh]';
                 } else {
                   colSpan = 'lg:col-span-6';
-                  aspectClass = 'max-h-[64vh]';
                 }
               }
 
@@ -339,7 +330,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   onClick={() => setLightboxImage({ url: img.url, caption: `${project.title} — ${img.specLabel || `Plate 0${idx + 1}`}` })}
                   className={`${colSpan} bg-[#0A0F1A] rounded-2xl border border-white/10 hover:border-[#D4FF00]/50 transition-all duration-300 cursor-zoom-in group flex flex-col justify-between hover:shadow-2xl hover:shadow-[#D4FF00]/5 relative overflow-hidden`}
                 >
-                  {/* Primary Artwork Presentation - Flush to Top, Full Frame Width */}
+                  {/* Primary Artwork Presentation - Flush to Top, Full Frame Width, Zero Cropping */}
                   <div className="w-full relative overflow-hidden bg-black/40 flex items-start">
                     <img
                       src={img.url}
@@ -347,7 +338,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       loading="lazy"
                       decoding="async"
                       referrerPolicy="no-referrer"
-                      className={`w-full ${aspectClass} object-cover object-top block transition-transform duration-500 group-hover:scale-[1.02]`}
+                      className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.01]"
                     />
                     <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 group-hover:bg-[#D4FF00] group-hover:text-[#080C14] flex items-center justify-center transition-all shadow-md">
                       <Maximize2 className="w-3.5 h-3.5" />
@@ -405,12 +396,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               }}
               className="group cursor-pointer block"
             >
-              <div className="bg-[#0E1522] rounded-xl overflow-hidden aspect-[16/9] flex items-start group-hover:bg-[#121B2B] transition-colors relative">
+              <div className="bg-[#0E1522] rounded-xl overflow-hidden flex items-start group-hover:bg-[#121B2B] transition-colors relative">
                 <img
                   src={prevProject.heroImage}
                   alt={prevProject.title}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.01]"
                 />
               </div>
               <div className="mt-3.5 space-y-1">
@@ -436,12 +427,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               }}
               className="group cursor-pointer block"
             >
-              <div className="bg-[#0E1522] rounded-xl overflow-hidden aspect-[16/9] flex items-start group-hover:bg-[#121B2B] transition-colors relative">
+              <div className="bg-[#0E1522] rounded-xl overflow-hidden flex items-start group-hover:bg-[#121B2B] transition-colors relative">
                 <img
                   src={nextProject.heroImage}
                   alt={nextProject.title}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.01]"
                 />
               </div>
               <div className="mt-3.5 space-y-1">

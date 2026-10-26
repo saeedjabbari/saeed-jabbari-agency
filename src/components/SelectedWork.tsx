@@ -89,7 +89,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"
-                  className="w-full h-auto max-h-[85vh] object-cover object-top block mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+                  className="w-full h-auto block mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                 />
               </div>
             </div>
@@ -107,17 +107,17 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => onSelectProject(secondaryProject)}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center cursor-pointer group"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start cursor-pointer group"
             >
               {/* Left Column: Massive uncropped packaging showcase (no stroke) */}
-              <div className="lg:col-span-7 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors aspect-[16/11] sm:aspect-[4/3] flex items-start">
+              <div className="lg:col-span-7 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors">
                 <img
                   src={secondaryProject.heroImage}
                   alt={secondaryProject.title}
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                 />
                 <div className="absolute top-4 left-4 z-10 font-mono text-[11px] font-bold text-[#080C14] bg-white/95 backdrop-blur-xs px-3 py-1 rounded shadow-sm">
                   02 / {secondaryProject.sectorLabel}
@@ -162,7 +162,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => onSelectProject(tertiaryProject)}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center cursor-pointer group"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start cursor-pointer group"
             >
               {/* Left Column: Typography & Strategy */}
               <div className="lg:col-span-5 order-2 lg:order-1 space-y-5">
@@ -189,14 +189,14 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
               </div>
 
               {/* Right Column: High-Impact Visual Plate (no stroke) */}
-              <div className="lg:col-span-7 order-1 lg:order-2 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors aspect-[16/11] sm:aspect-[4/3] flex items-start">
+              <div className="lg:col-span-7 order-1 lg:order-2 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors">
                 <img
                   src={tertiaryProject.heroImage}
                   alt={tertiaryProject.title}
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                 />
                 <div className="absolute top-4 left-4 z-10 font-mono text-[11px] font-bold text-[#080C14] bg-white/95 backdrop-blur-xs px-3 py-1 rounded shadow-sm">
                   03 / {tertiaryProject.sectorLabel}
