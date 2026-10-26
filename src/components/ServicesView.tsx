@@ -235,14 +235,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10 items-stretch">
             
             {/* Visual Preview */}
-            <div className="lg:col-span-7 bg-white rounded-xl p-6 sm:p-8 flex items-center justify-center overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
+            <div className="lg:col-span-7 bg-white rounded-xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-start aspect-[16/11]">
               <img
                 src={s.image}
                 alt={s.title}
                 loading="lazy"
                 decoding="async"
                 referrerPolicy="no-referrer"
-                className="w-full max-h-[460px] object-contain rounded-lg"
+                className="w-full h-full object-cover object-top block"
               />
             </div>
 

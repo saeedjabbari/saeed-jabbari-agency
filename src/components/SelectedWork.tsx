@@ -82,14 +82,14 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
               </div>
 
               {/* Edge-to-edge uncropped hero without any border stroke */}
-              <div className="relative overflow-hidden rounded-2xl flex items-center justify-center bg-[#04060b] py-6 sm:py-12">
+              <div className="relative overflow-hidden rounded-2xl bg-[#04060b] w-full">
                 <img
                   src={leadProject.heroImage}
                   alt={leadProject.title}
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"
-                  className="w-full max-h-[80vh] object-contain mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+                  className="w-full h-auto max-h-[85vh] object-cover object-top block mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                 />
               </div>
             </div>
@@ -110,16 +110,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
               className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center cursor-pointer group"
             >
               {/* Left Column: Massive uncropped packaging showcase (no stroke) */}
-              <div className="lg:col-span-7 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl p-6 sm:p-12 flex items-center justify-center relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors">
+              <div className="lg:col-span-7 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors aspect-[16/11] sm:aspect-[4/3] flex items-start">
                 <img
                   src={secondaryProject.heroImage}
                   alt={secondaryProject.title}
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"
-                  className="w-full max-h-[62vh] object-contain mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 />
-                <div className="absolute top-5 left-5 font-mono text-[11px] font-bold text-[#080C14] bg-white px-3 py-1 rounded shadow-sm">
+                <div className="absolute top-4 left-4 z-10 font-mono text-[11px] font-bold text-[#080C14] bg-white/95 backdrop-blur-xs px-3 py-1 rounded shadow-sm">
                   02 / {secondaryProject.sectorLabel}
                 </div>
               </div>
@@ -189,15 +189,18 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onViewAll, onSelectP
               </div>
 
               {/* Right Column: High-Impact Visual Plate (no stroke) */}
-              <div className="lg:col-span-7 order-1 lg:order-2 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl p-6 sm:p-12 flex items-center justify-center relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors">
+              <div className="lg:col-span-7 order-1 lg:order-2 bg-[#E8EBF0] rounded-2xl sm:rounded-3xl relative overflow-hidden group-hover:bg-[#E0E4EA] transition-colors aspect-[16/11] sm:aspect-[4/3] flex items-start">
                 <img
                   src={tertiaryProject.heroImage}
                   alt={tertiaryProject.title}
                   loading="lazy"
                   decoding="async"
                   referrerPolicy="no-referrer"
-                  className="w-full max-h-[62vh] object-contain mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 />
+                <div className="absolute top-4 left-4 z-10 font-mono text-[11px] font-bold text-[#080C14] bg-white/95 backdrop-blur-xs px-3 py-1 rounded shadow-sm">
+                  03 / {tertiaryProject.sectorLabel}
+                </div>
               </div>
             </motion.div>
           </div>

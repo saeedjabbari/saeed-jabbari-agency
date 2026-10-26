@@ -162,16 +162,16 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                 className="group relative rounded-3xl p-6 sm:p-10 lg:p-14 border cursor-pointer transition-all duration-500 hover:-translate-y-1"
               >
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-                  {/* Left Column: Floating Monumental Artwork (Open, Unboxed) */}
-                  <div className="lg:col-span-7 w-full flex items-center justify-center">
-                    <div className="w-full aspect-[16/10] sm:aspect-[16/11] rounded-2xl overflow-hidden flex items-center justify-center relative transition-transform duration-700 ease-out group-hover:scale-[1.02]">
+                  {/* Left Column: Floating Monumental Artwork (Full Frame Width, Top-Attached) */}
+                  <div className="lg:col-span-7 w-full flex items-start">
+                    <div className="w-full aspect-[16/10] sm:aspect-[16/11] rounded-2xl overflow-hidden relative transition-transform duration-700 ease-out group-hover:scale-[1.02] bg-black/5 flex items-start">
                       <img
                         src={item.project.heroImage}
                         alt={item.project.title}
                         loading="lazy"
                         decoding="async"
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-contain mx-auto"
+                        className="w-full h-full object-cover object-top block"
                       />
                     </div>
                   </div>
@@ -273,32 +273,14 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                   }}
                   className={`${
                     isAlt ? 'lg:col-span-5' : 'lg:col-span-7'
-                  } group rounded-3xl p-6 sm:p-9 border cursor-pointer flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5`}
+                  } group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5`}
                 >
                   <div>
-                    {/* Header bar */}
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-[#080C14] bg-[#D4FF00] px-2 py-0.5 rounded-sm">
-                          {String(itemA.globalIndex + 1).padStart(2, '0')}
-                        </span>
-                        <span
-                          style={{ backgroundColor: paletteA.badgeBg, color: paletteA.badgeText }}
-                          className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase truncate"
-                        >
-                          {itemA.project.sectorLabel}
-                        </span>
-                      </div>
-                      <span className="text-xs font-mono text-neutral-500">
-                        {itemA.project.year}
-                      </span>
-                    </div>
-
-                    {/* Floating Product Image Plate (Open & Breathable) */}
+                    {/* Full Frame Width Image Attached to the Very Top of the Card */}
                     <div
                       className={`w-full ${
-                        isAlt ? 'aspect-[4/4] sm:aspect-[4/5]' : 'aspect-[16/11]'
-                      } rounded-2xl overflow-hidden flex items-center justify-center relative transition-transform duration-700 ease-out group-hover:scale-[1.03]`}
+                        isAlt ? 'aspect-[4/3] sm:aspect-[1/1]' : 'aspect-[16/10]'
+                      } overflow-hidden relative flex items-start bg-black/5`}
                     >
                       <img
                         src={itemA.project.heroImage}
@@ -306,42 +288,60 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                         loading="lazy"
                         decoding="async"
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-contain mx-auto"
+                        className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       />
-                    </div>
-                  </div>
 
-                  {/* Card Details */}
-                  <div className="pt-6 flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-serif text-xl sm:text-2xl font-semibold text-[#080C14] tracking-tight leading-snug group-hover:text-black transition-colors">
-                        {itemA.project.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-neutral-600 mt-2 line-clamp-2 leading-relaxed">
-                        {itemA.project.tagline || itemA.project.description}
-                      </p>
-                    </div>
-
-                    {/* Mini Plate Preview Row */}
-                    {itemA.project.galleryImages && itemA.project.galleryImages.length > 0 && (
-                      <div className="flex items-center gap-1.5 pt-3">
-                        {itemA.project.galleryImages.slice(0, 3).map((gImg, gIdx) => (
-                          <div key={gIdx} className="w-9 h-6 rounded border border-black/10 overflow-hidden bg-black/5 shrink-0">
-                            <img src={gImg.url} alt="" className="w-full h-full object-cover" />
-                          </div>
-                        ))}
-                        <span className="text-[10px] font-mono text-neutral-600 font-bold px-1.5 py-0.5 rounded bg-black/5 shrink-0">
-                          {itemA.project.galleryImages.length} Plates
+                      {/* Floating Meta Badges Over Image */}
+                      <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between pointer-events-none">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-bold text-[#080C14] bg-[#D4FF00] px-2.5 py-1 rounded shadow-sm">
+                            {String(itemA.globalIndex + 1).padStart(2, '0')}
+                          </span>
+                          <span
+                            style={{ backgroundColor: paletteA.badgeBg, color: paletteA.badgeText }}
+                            className="px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase truncate shadow-xs"
+                          >
+                            {itemA.project.sectorLabel}
+                          </span>
+                        </div>
+                        <span className="text-xs font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded shadow-xs">
+                          {itemA.project.year}
                         </span>
                       </div>
-                    )}
+                    </div>
 
-                    <div className="pt-4 mt-3 border-t border-black/5 flex items-center justify-between text-xs font-mono">
-                      <span className="text-neutral-500">{itemA.project.categoryTag}</span>
-                      <span className="text-[#080C14] group-hover:text-black font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                        <span>VIEW CASE</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </span>
+                    {/* Card Details with generous padding below the flush image */}
+                    <div className="p-6 sm:p-8 flex flex-col justify-between">
+                      <div>
+                        <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-[#080C14] tracking-tight leading-snug group-hover:text-black transition-colors">
+                          {itemA.project.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-neutral-600 mt-2.5 line-clamp-2 leading-relaxed">
+                          {itemA.project.tagline || itemA.project.description}
+                        </p>
+                      </div>
+
+                      {/* Mini Plate Preview Row */}
+                      {itemA.project.galleryImages && itemA.project.galleryImages.length > 0 && (
+                        <div className="flex items-center gap-1.5 pt-4">
+                          {itemA.project.galleryImages.slice(0, 3).map((gImg, gIdx) => (
+                            <div key={gIdx} className="w-10 h-7 rounded border border-black/10 overflow-hidden bg-black/5 shrink-0">
+                              <img src={gImg.url} alt="" className="w-full h-full object-cover" />
+                            </div>
+                          ))}
+                          <span className="text-[10px] font-mono text-neutral-600 font-bold px-2 py-0.5 rounded bg-black/5 shrink-0">
+                            {itemA.project.galleryImages.length} Plates
+                          </span>
+                        </div>
+                      )}
+
+                      <div className="pt-4 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-mono">
+                        <span className="text-neutral-500">{itemA.project.categoryTag}</span>
+                        <span className="text-[#080C14] group-hover:text-black font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                          <span>VIEW CASE</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -361,32 +361,14 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                     }}
                     className={`${
                       isAlt ? 'lg:col-span-7' : 'lg:col-span-5'
-                    } group rounded-3xl p-6 sm:p-9 border cursor-pointer flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5`}
+                    } group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5`}
                   >
                     <div>
-                      {/* Header bar */}
-                      <div className="flex items-center justify-between mb-5">
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs font-bold text-[#080C14] bg-[#D4FF00] px-2 py-0.5 rounded-sm">
-                            {String(itemB.globalIndex + 1).padStart(2, '0')}
-                          </span>
-                          <span
-                            style={{ backgroundColor: paletteB.badgeBg, color: paletteB.badgeText }}
-                            className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase truncate"
-                          >
-                            {itemB.project.sectorLabel}
-                          </span>
-                        </div>
-                        <span className="text-xs font-mono text-neutral-500">
-                          {itemB.project.year}
-                        </span>
-                      </div>
-
-                      {/* Floating Product Image Plate */}
+                      {/* Full Frame Width Image Attached to the Very Top of the Card */}
                       <div
                         className={`w-full ${
-                          isAlt ? 'aspect-[16/11]' : 'aspect-[4/4] sm:aspect-[4/5]'
-                        } rounded-2xl overflow-hidden flex items-center justify-center relative transition-transform duration-700 ease-out group-hover:scale-[1.03]`}
+                          isAlt ? 'aspect-[16/10]' : 'aspect-[4/3] sm:aspect-[1/1]'
+                        } overflow-hidden relative flex items-start bg-black/5`}
                       >
                         <img
                           src={itemB.project.heroImage}
@@ -394,42 +376,60 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                           loading="lazy"
                           decoding="async"
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-contain mx-auto"
+                          className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                         />
-                      </div>
-                    </div>
 
-                    {/* Card Details */}
-                    <div className="pt-6 flex flex-col justify-between">
-                      <div>
-                        <h3 className="font-serif text-xl sm:text-2xl font-semibold text-[#080C14] tracking-tight leading-snug group-hover:text-black transition-colors">
-                          {itemB.project.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-neutral-600 mt-2 line-clamp-2 leading-relaxed">
-                          {itemB.project.tagline || itemB.project.description}
-                        </p>
-                      </div>
-
-                      {/* Mini Plate Preview Row */}
-                      {itemB.project.galleryImages && itemB.project.galleryImages.length > 0 && (
-                        <div className="flex items-center gap-1.5 pt-3">
-                          {itemB.project.galleryImages.slice(0, 3).map((gImg, gIdx) => (
-                            <div key={gIdx} className="w-9 h-6 rounded border border-black/10 overflow-hidden bg-black/5 shrink-0">
-                              <img src={gImg.url} alt="" className="w-full h-full object-cover" />
-                            </div>
-                          ))}
-                          <span className="text-[10px] font-mono text-neutral-600 font-bold px-1.5 py-0.5 rounded bg-black/5 shrink-0">
-                            {itemB.project.galleryImages.length} Plates
+                        {/* Floating Meta Badges Over Image */}
+                        <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between pointer-events-none">
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-xs font-bold text-[#080C14] bg-[#D4FF00] px-2.5 py-1 rounded shadow-sm">
+                              {String(itemB.globalIndex + 1).padStart(2, '0')}
+                            </span>
+                            <span
+                              style={{ backgroundColor: paletteB.badgeBg, color: paletteB.badgeText }}
+                              className="px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase truncate shadow-xs"
+                            >
+                              {itemB.project.sectorLabel}
+                            </span>
+                          </div>
+                          <span className="text-xs font-mono font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded shadow-xs">
+                            {itemB.project.year}
                           </span>
                         </div>
-                      )}
+                      </div>
 
-                      <div className="pt-4 mt-3 border-t border-black/5 flex items-center justify-between text-xs font-mono">
-                        <span className="text-neutral-500">{itemB.project.categoryTag}</span>
-                        <span className="text-[#080C14] group-hover:text-black font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>VIEW CASE</span>
-                          <ArrowUpRight className="w-3.5 h-3.5" />
-                        </span>
+                      {/* Card Details with generous padding below the flush image */}
+                      <div className="p-6 sm:p-8 flex flex-col justify-between">
+                        <div>
+                          <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-[#080C14] tracking-tight leading-snug group-hover:text-black transition-colors">
+                            {itemB.project.title}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-neutral-600 mt-2.5 line-clamp-2 leading-relaxed">
+                            {itemB.project.tagline || itemB.project.description}
+                          </p>
+                        </div>
+
+                        {/* Mini Plate Preview Row */}
+                        {itemB.project.galleryImages && itemB.project.galleryImages.length > 0 && (
+                          <div className="flex items-center gap-1.5 pt-4">
+                            {itemB.project.galleryImages.slice(0, 3).map((gImg, gIdx) => (
+                              <div key={gIdx} className="w-10 h-7 rounded border border-black/10 overflow-hidden bg-black/5 shrink-0">
+                                <img src={gImg.url} alt="" className="w-full h-full object-cover" />
+                              </div>
+                            ))}
+                            <span className="text-[10px] font-mono text-neutral-600 font-bold px-2 py-0.5 rounded bg-black/5 shrink-0">
+                              {itemB.project.galleryImages.length} Plates
+                            </span>
+                          </div>
+                        )}
+
+                        <div className="pt-4 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-mono">
+                          <span className="text-neutral-500">{itemB.project.categoryTag}</span>
+                          <span className="text-[#080C14] group-hover:text-black font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                            <span>VIEW CASE</span>
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -460,66 +460,66 @@ export const WorkArchive: React.FC<WorkArchiveProps> = ({ onSelectProject }) => 
                         boxShadow: palette.shadow,
                         borderColor: palette.border
                       }}
-                      className="group rounded-3xl p-6 sm:p-7 border cursor-pointer flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5"
+                      className="group rounded-3xl border cursor-pointer flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
                     >
                       <div>
-                        {/* Header bar */}
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="font-mono text-xs font-bold text-[#080C14] bg-[#D4FF00] px-2 py-0.5 rounded-sm">
-                            {String(item.globalIndex + 1).padStart(2, '0')}
-                          </span>
-                          <span
-                            style={{ backgroundColor: palette.badgeBg, color: palette.badgeText }}
-                            className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase truncate max-w-[170px]"
-                          >
-                            {item.project.sectorLabel}
-                          </span>
-                        </div>
-
-                        {/* Tactile Vertical Packaging Plate — aspect-[4/5] floating */}
-                        <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden flex items-center justify-center relative transition-transform duration-700 ease-out group-hover:scale-105">
+                        {/* Full Frame Width Image Attached to the Very Top of the Card */}
+                        <div className="w-full aspect-[4/3] sm:aspect-[1/1] overflow-hidden relative flex items-start bg-black/5">
                           <img
                             src={item.project.heroImage}
                             alt={item.project.title}
                             loading="lazy"
                             decoding="async"
                             referrerPolicy="no-referrer"
-                            className="w-full h-full object-contain mx-auto"
+                            className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out group-hover:scale-105"
                           />
-                        </div>
-                      </div>
 
-                      {/* Card Content */}
-                      <div className="pt-5 flex flex-col justify-between flex-1">
-                        <div>
-                          <h3 className="font-serif text-lg sm:text-xl font-semibold text-[#080C14] tracking-tight leading-snug group-hover:text-black transition-colors">
-                            {item.project.title}
-                          </h3>
-                          <p className="text-xs text-neutral-600 mt-2 line-clamp-2 leading-relaxed font-normal">
-                            {item.project.tagline || item.project.description}
-                          </p>
-                        </div>
-
-                        {/* Mini Plate Preview Row */}
-                        {item.project.galleryImages && item.project.galleryImages.length > 0 && (
-                          <div className="flex items-center gap-1 pt-3">
-                            {item.project.galleryImages.slice(0, 3).map((gImg, gIdx) => (
-                              <div key={gIdx} className="w-8 h-5 rounded border border-black/10 overflow-hidden bg-black/5 shrink-0">
-                                <img src={gImg.url} alt="" className="w-full h-full object-cover" />
-                              </div>
-                            ))}
-                            <span className="text-[9px] font-mono text-neutral-600 font-bold px-1.5 py-0.5 rounded bg-black/5 shrink-0">
-                              {item.project.galleryImages.length} Plates
+                          {/* Floating Header Badges Over Image */}
+                          <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-none">
+                            <span className="font-mono text-xs font-bold text-[#080C14] bg-[#D4FF00] px-2 py-0.5 rounded shadow-sm">
+                              {String(item.globalIndex + 1).padStart(2, '0')}
+                            </span>
+                            <span
+                              style={{ backgroundColor: palette.badgeBg, color: palette.badgeText }}
+                              className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase truncate max-w-[170px] shadow-xs"
+                            >
+                              {item.project.sectorLabel}
                             </span>
                           </div>
-                        )}
+                        </div>
 
-                        <div className="pt-3 mt-3 border-t border-black/5 flex items-center justify-between text-xs font-mono">
-                          <span className="text-neutral-500">{item.project.year}</span>
-                          <span className="text-[#080C14] group-hover:text-black font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                            <span>EXPLORE</span>
-                            <ArrowUpRight className="w-3.5 h-3.5" />
-                          </span>
+                        {/* Card Content with proper padding below the flush image */}
+                        <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
+                          <div>
+                            <h3 className="font-serif text-lg sm:text-xl font-semibold text-[#080C14] tracking-tight leading-snug group-hover:text-black transition-colors">
+                              {item.project.title}
+                            </h3>
+                            <p className="text-xs text-neutral-600 mt-2 line-clamp-2 leading-relaxed font-normal">
+                              {item.project.tagline || item.project.description}
+                            </p>
+                          </div>
+
+                          {/* Mini Plate Preview Row */}
+                          {item.project.galleryImages && item.project.galleryImages.length > 0 && (
+                            <div className="flex items-center gap-1 pt-3">
+                              {item.project.galleryImages.slice(0, 3).map((gImg, gIdx) => (
+                                <div key={gIdx} className="w-8 h-5 rounded border border-black/10 overflow-hidden bg-black/5 shrink-0">
+                                  <img src={gImg.url} alt="" className="w-full h-full object-cover" />
+                                </div>
+                              ))}
+                              <span className="text-[9px] font-mono text-neutral-600 font-bold px-1.5 py-0.5 rounded bg-black/5 shrink-0">
+                                {item.project.galleryImages.length} Plates
+                              </span>
+                            </div>
+                          )}
+
+                          <div className="pt-3 mt-3 border-t border-black/5 flex items-center justify-between text-xs font-mono">
+                            <span className="text-neutral-500">{item.project.year}</span>
+                            <span className="text-[#080C14] group-hover:text-black font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                              <span>EXPLORE</span>
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </motion.div>

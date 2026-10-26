@@ -382,13 +382,13 @@ export const ProcessView: React.FC<ProcessViewProps> = ({ onOpenBrief }) => {
                   </span>
                 </div>
 
-                {/* The Real Studio Artwork Display Frame */}
-                <div className="relative z-10 aspect-[4/3] sm:aspect-[16/11] rounded-2xl overflow-hidden bg-[#03060B] flex items-center justify-center p-4 sm:p-6 shadow-2xl border border-white/10">
+                {/* The Real Studio Artwork Display Frame (Full Frame Width, Top-Attached) */}
+                <div className="relative z-10 aspect-[4/3] sm:aspect-[16/11] rounded-2xl overflow-hidden bg-[#03060B] flex items-start shadow-2xl border border-white/10">
                   <img
                     src={currentStage.image}
                     alt={currentStage.imageAlt}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-contain mx-auto transition-transform duration-700 ease-out hover:scale-105"
+                    className="w-full h-full object-cover object-top block transition-transform duration-700 ease-out hover:scale-105"
                   />
                   
                   {/* Subtle Technical Blueprint Crosshairs */}

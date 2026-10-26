@@ -120,16 +120,16 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         onClick={() => setLightboxImage({ url: project.heroImage, caption: project.title })}
-        className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none bg-[#04060B] py-8 sm:py-16 md:py-24 px-2 sm:px-6 cursor-zoom-in group"
+        className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none bg-[#04060B] pb-8 sm:pb-16 pt-0 px-0 cursor-zoom-in group"
       >
-        <div className="max-w-[1720px] mx-auto relative flex items-center justify-center">
+        <div className="max-w-[1720px] mx-auto relative overflow-hidden flex items-start">
           <img
             src={project.heroImage}
             alt={project.title}
             loading="eager"
             decoding="async"
             referrerPolicy="no-referrer"
-            className="w-full max-h-[88vh] object-contain mx-auto rounded-xl sm:rounded-2xl shadow-2xl transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+            className="w-full h-auto max-h-[90vh] object-cover object-top block mx-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
           />
 
           <div className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:bg-[#D4FF00] group-hover:text-[#080C14] transition-all">
@@ -337,38 +337,40 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 <div
                   key={idx}
                   onClick={() => setLightboxImage({ url: img.url, caption: `${project.title} — ${img.specLabel || `Plate 0${idx + 1}`}` })}
-                  className={`${colSpan} bg-[#0A0F1A] rounded-2xl p-4 sm:p-7 border border-white/10 hover:border-[#D4FF00]/50 transition-all duration-300 cursor-zoom-in group flex flex-col justify-between hover:shadow-2xl hover:shadow-[#D4FF00]/5 relative overflow-hidden`}
+                  className={`${colSpan} bg-[#0A0F1A] rounded-2xl border border-white/10 hover:border-[#D4FF00]/50 transition-all duration-300 cursor-zoom-in group flex flex-col justify-between hover:shadow-2xl hover:shadow-[#D4FF00]/5 relative overflow-hidden`}
                 >
-                  {/* Primary Artwork Presentation */}
-                  <div className="relative overflow-hidden flex items-center justify-center py-2 sm:py-4 flex-1">
+                  {/* Primary Artwork Presentation - Flush to Top, Full Frame Width */}
+                  <div className="w-full relative overflow-hidden bg-black/40 flex items-start">
                     <img
                       src={img.url}
                       alt={img.caption || `${project.title} Plate 0${idx + 1}`}
                       loading="lazy"
                       decoding="async"
                       referrerPolicy="no-referrer"
-                      className={`w-full ${aspectClass} object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.01]`}
+                      className={`w-full ${aspectClass} object-cover object-top block transition-transform duration-500 group-hover:scale-[1.02]`}
                     />
-                    <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 group-hover:bg-[#D4FF00] group-hover:text-[#080C14] flex items-center justify-center transition-all shadow-md">
+                    <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 group-hover:bg-[#D4FF00] group-hover:text-[#080C14] flex items-center justify-center transition-all shadow-md">
                       <Maximize2 className="w-3.5 h-3.5" />
                     </div>
                   </div>
 
-                  {/* Minimalist Plate Caption & Numbering */}
-                  <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between font-mono text-[11px]">
-                    <span className="text-neutral-400 uppercase tracking-widest text-[10px] sm:text-[11px] truncate mr-2">
-                      {img.specLabel || `PLATE 0${idx + 1}`}
-                    </span>
-                    <span className="text-[#D4FF00] font-bold shrink-0">
-                      0{idx + 1} / 0{project.galleryImages.length}
-                    </span>
-                  </div>
+                  {/* Minimalist Plate Caption & Numbering with Padding Below */}
+                  <div className="p-4 sm:p-5 flex flex-col justify-between flex-1">
+                    <div className="flex items-center justify-between font-mono text-[11px]">
+                      <span className="text-neutral-400 uppercase tracking-widest text-[10px] sm:text-[11px] truncate mr-2">
+                        {img.specLabel || `PLATE 0${idx + 1}`}
+                      </span>
+                      <span className="text-[#D4FF00] font-bold shrink-0">
+                        0{idx + 1} / 0{project.galleryImages.length}
+                      </span>
+                    </div>
 
-                  {img.caption && (
-                    <p className="mt-1.5 text-xs text-neutral-400 font-normal leading-relaxed">
-                      {img.caption}
-                    </p>
-                  )}
+                    {img.caption && (
+                      <p className="mt-1.5 text-xs text-neutral-400 font-normal leading-relaxed">
+                        {img.caption}
+                      </p>
+                    )}
+                  </div>
                 </div>
               );
             })}
@@ -403,12 +405,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               }}
               className="group cursor-pointer block"
             >
-              <div className="bg-[#0E1522] rounded-xl p-6 sm:p-8 flex items-center justify-center overflow-hidden group-hover:bg-[#121B2B] transition-colors">
+              <div className="bg-[#0E1522] rounded-xl overflow-hidden aspect-[16/9] flex items-start group-hover:bg-[#121B2B] transition-colors relative">
                 <img
                   src={prevProject.heroImage}
                   alt={prevProject.title}
                   referrerPolicy="no-referrer"
-                  className="w-full max-h-56 object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </div>
               <div className="mt-3.5 space-y-1">
@@ -434,12 +436,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               }}
               className="group cursor-pointer block"
             >
-              <div className="bg-[#0E1522] rounded-xl p-6 sm:p-8 flex items-center justify-center overflow-hidden group-hover:bg-[#121B2B] transition-colors">
+              <div className="bg-[#0E1522] rounded-xl overflow-hidden aspect-[16/9] flex items-start group-hover:bg-[#121B2B] transition-colors relative">
                 <img
                   src={nextProject.heroImage}
                   alt={nextProject.title}
                   referrerPolicy="no-referrer"
-                  className="w-full max-h-56 object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </div>
               <div className="mt-3.5 space-y-1">

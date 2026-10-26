@@ -212,13 +212,13 @@ export const ArticlesView: React.FC<ArticlesViewProps> = ({ onOpenBrief }) => {
             </p>
           </div>
 
-          {/* Featured Visual Plate */}
-          <div className="bg-white rounded-xl overflow-hidden mb-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-center justify-center p-4 sm:p-8">
+          {/* Featured Visual Plate (Full Frame Width, Top-Attached) */}
+          <div className="bg-white rounded-xl overflow-hidden mb-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-start aspect-[16/9]">
             <img
               src={article.image}
               alt={article.title}
               referrerPolicy="no-referrer"
-              className="w-full max-h-[500px] object-contain rounded-lg"
+              className="w-full h-full object-cover object-top block"
             />
           </div>
 
